@@ -69,6 +69,21 @@ class Crud_Model extends CI_Model{
             return false;
         }
     }
+	function saving_user_details($username,$password,$location,$designation,$firstname,$lastname){
+    	$table="ifa_users";
+		$data = array(
+			'username'     => $username,
+			'password'  => $password,
+			'location'   => $location,
+			'designation' => $designation,
+			'first_name'     => $firstname,
+			'last_name'  => $lastname,
+			'role_id'   => 1,
+
+		);
+		$this->db->insert($table,$data);
+
+	}
     function get_user_details($id = '') {
     		return $this->db->get_where('users',array('id'=>$id))->row_array();
     }

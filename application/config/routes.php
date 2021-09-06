@@ -56,4 +56,9 @@ $route['translate_uri_dashes'] = FALSE;
 $route['login']= 'Auth/login';
 $route['logout']= 'Auth/logout';
 
+
 $route['ifausers']= 'api/ifa/ifa_users';
+
+$route['registration']= 'Admin/registration';
+$route['IFA_user_save']= 'Admin/IFA_user_save';
+
