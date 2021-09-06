@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2021 at 02:19 PM
+-- Generation Time: Sep 06, 2021 at 08:57 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -47,9 +47,8 @@ CREATE TABLE `ifa_users` (
 
 INSERT INTO `ifa_users` (`id`, `role_id`, `first_name`, `last_name`, `username`, `password`, `created_at`, `modified_at`, `status`, `designation`, `location`) VALUES
 (1, 1, 'IFA user 1', '', 'admin@admin.com', '96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e', '2021-09-02 06:19:49', NULL, 1, '', ''),
-(2, 0, 'wwwwwww', 'www', 'admin@admin.com22', '', '2021-09-03 11:38:00', NULL, 1, 'ddddd', 'ssssww'),
-(3, 1, 'narayana', 'reddy', 'admin@admin.com33', '', '2021-09-03 11:52:37', NULL, 1, 'ddddd', 'ssssww'),
-(4, 1, 'narayana', 'www', 'admin@admin.comss', '123123wwwwwwww', '2021-09-03 12:15:03', NULL, 1, 'ddddd', 'ssssww');
+(5, 1, 'IFA user2', 'IFA user2', 'admin@admin.com2', 'c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646', '2021-09-06 05:11:22', NULL, 1, 'Designation2', 'Hyderabad'),
+(7, 1, 'IFA user3', 'IFA user3', 'admin@admin.com3', 'c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646', '2021-09-06 05:26:45', NULL, 1, 'Designation3', 'Hyderabad');
 
 --
 -- Indexes for dumped tables
@@ -69,7 +68,7 @@ ALTER TABLE `ifa_users`
 -- AUTO_INCREMENT for table `ifa_users`
 --
 ALTER TABLE `ifa_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

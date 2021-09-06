@@ -71,6 +71,8 @@ class Crud_Model extends CI_Model{
     }
 	function saving_user_details($username,$password,$location,$designation,$firstname,$lastname){
     	$table="ifa_users";
+		$password=hash ( "sha256",$password);
+
 		$data = array(
 			'username'     => $username,
 			'password'  => $password,
@@ -84,7 +86,13 @@ class Crud_Model extends CI_Model{
 		$this->db->insert($table,$data);
 
 	}
-    function get_user_details($id = '') {
+	function get_ifa_users_list()
+	{
+		$query = $this->db->get('ifa_users');
+		return $query->result();
+	}
+
+	function get_user_details($id = '') {
     		return $this->db->get_where('users',array('id'=>$id))->row_array();
     }
     function get_role_details($id = '') {
