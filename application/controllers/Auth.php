@@ -9,7 +9,7 @@ class Auth extends CI_Controller
         $this->template = 'layouts/auth/main';
     }
     public function index(){
-        if($this->session->userdata('login_id')==''){
+        if($this->session->userdata('userId') == ''){
             redirect('login');
         }else{
             $this->crud_model->login_details();
@@ -18,16 +18,17 @@ class Auth extends CI_Controller
         }
     }
     public function login(){
-        if($this->session->userdata('login_id') != ''){
+        if($this->session->userdata('userId') != ''){
             redirect('auth');
         }
         if($this->input->post()){
-        $username = $this->input->post('email');
+        $username = $this->input->post('username');
         $password = $this->input->post('password');       
         if(!empty($username) && !empty($password)) {
         $res = $this->crud_model->validate_user_credentials($username, $password);
         if (!empty($res)) {
             $this->session->set_userdata('login_id', $res['id']);
+            $this->session->set_userdata('userId', $res['username']);
             $this->session->set_userdata('role_id', $res['role_id']);
             redirect('auth', '');
         }else{
@@ -89,17 +90,18 @@ class Auth extends CI_Controller
 
             $this->session->set_userdata($userdata);
         }
-        if (!empty($userdata)) {
+        /*if (!empty($userdata)) {
             echo "user set";
         //prx($this->session->all_userdata());            
         echo '<pre>'; print_r($this->session->all_userdata()); die;
-        }
+        }*/
+        $this->setSSOusers();
     }
     
     function testauthAdmin() {
         $userid = '';
         $userdet = new stdClass();
-        $userdet->userId = "gem-admin";
+        $userdet->userId = "gem-admin7";
         $userdet->firstName = "Vishal";
         $userdet->lastName = "Tomer";
         $userdet->mobileNumber = "9711660309";
@@ -130,14 +132,21 @@ class Auth extends CI_Controller
 
             $this->session->set_userdata($userdata);
         }
-        if (!empty($userdata)) {
+
+        /*if (!empty($userdata)) {
             echo "Admin set";
             //print_r($userdata);
             echo '<pre>'; print_r($this->session->all_userdata()); die;
-        }
+        }*/
+        $this->setSSOusers();
+    }
+    public function setSSOusers()
+    {
+        $this->crud_model->setssousers();
+        redirect("auth");
     }
     public function logout(){
-     if ($this->session->userdata('login_id') != '')
+     if ($this->session->userdata('userId') != '')
         {
             $this->crud_model->logout_details();
         }

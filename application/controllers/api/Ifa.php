@@ -23,7 +23,7 @@ class Ifa extends REST_Controller {
 	{
         $data=array();
         if(!empty($id)){
-            $data = $this->db->select('')->from("ifa_users as iu")->join('hod_ifas as hi','iu.id = hi.ifa_id')->where(['hi.hod_id' => $id])->result();
+            $data = $this->db->select('iu.*')->from("ifa_users as iu")->join('hod_ifas as hi','iu.id = hi.ifa_id')->where(['hi.hod_id' => $id])->get()->result();
         }
      
         $this->response($data, REST_Controller::HTTP_OK);

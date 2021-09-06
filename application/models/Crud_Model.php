@@ -9,6 +9,7 @@ class Crud_Model extends CI_Model{
         date_default_timezone_set('Asia/Kolkata');   
         //$this->system_name = $this->db->get_where('settings', array('setting_type' => 'system_name'))->row()->description;
         $this->login_id = $this->session->userdata('login_id');
+        $this->role_id = $this->session->userdata('role_id');
     }
     
     public function validate_user_credentials($username, $password){
@@ -16,19 +17,40 @@ class Crud_Model extends CI_Model{
     	return $this->db->where($where)->get_where("ifa_users", array("password" => hash ( "sha256",$password)))->row_array();
     }
     function login_details(){
-        $users_data=$this->db->get_where('login_details',array('user_id'=>$this->login_id));
+        $users_data=$this->db->get_where('login_details',array('user_id'=>$this->session->userdata('userId'),'role_id'=>$this->session->userdata('role_id')));
         if($users_data->num_rows()>0){
             $data['login_at']=date('Y-m-d H:i:s');
-            return $this->db->where('user_id',$this->login_id)->update('login_details',$data);
+            return $this->db->where('id',$users_data->row()->id)->update('login_details',$data);
         }else{
-            $data['user_id']=$this->login_id;
+            $data['user_id']=$this->session->userdata('userId');
+            $data['role_id']=$this->session->userdata('role_id');
             $data['login_at']=date('Y-m-d H:i:s');
             return $this->db->insert('login_details',$data);
         }
     }
     function logout_details(){
             $data['logout_at']=date('Y-m-d H:i:s');
-            return $this->db->where('user_id',$this->login_id)->update('login_details',$data);
+            return $this->db->where(['user_id'=>$this->login_id,'role_id'=>$this->role_id])->update('login_details',$data);
+    }
+    public function setssousers()
+    {
+        $data=array(
+                'reference_id'=>$this->session->userdata('userId'),
+                'name'=>$this->session->userdata('firstName').' '.$this->session->userdata('lastName'),
+            );
+        if($this->session->userdata('role_id') == 4){
+            $res=$this->db->get_where('buyer_details',array('reference_id'=>$this->session->userdata('userId')))->num_rows();
+            if($res == 0){
+                $this->db->insert('buyer_details',$data);    
+            }
+        }elseif($this->session->userdata('role_id') == 6){
+            $res=$this->db->get_where('hod_details',array('reference_id'=>$this->session->userdata('userId')))->num_rows();
+            //print_r($this->db->last_query());die;
+            if($res == 0){
+                $this->db->insert('hod_details',$data);    
+            }
+        }
+        return true;
     }
     public function save_user_details($inputData){
         $this->db->insert('users', $inputData);
