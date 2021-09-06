@@ -19,11 +19,15 @@ class Ifa extends REST_Controller {
      *
      * @return Response
     */
-	public function ifa_users_get($id = 0)
+	public function ifa_users_get($username = 0)
 	{
         $data=array();
-        if(!empty($id)){
-            $data = $this->db->select('iu.*')->from("ifa_users as iu")->join('hod_ifas as hi','iu.id = hi.ifa_id')->where(['hi.hod_id' => $id])->get()->result();
+        if(!empty($username)){
+            $hods=$this->db->where('username',$username)->get('hod_details');
+            if($hods->num_rows() == 1){
+                $id=$hods->row()->id;
+                $data = $this->db->select('iu.*')->from("ifa_users as iu")->join('hod_ifas as hi','iu.id = hi.ifa_id')->where(['hi.hod_id' => $id,'iu.status'=>1])->get()->result();   
+            }
         }
      
         $this->response($data, REST_Controller::HTTP_OK);

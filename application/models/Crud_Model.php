@@ -35,16 +35,16 @@ class Crud_Model extends CI_Model{
     public function setssousers()
     {
         $data=array(
-                'reference_id'=>$this->session->userdata('userId'),
+                'username'=>$this->session->userdata('userId'),
                 'name'=>$this->session->userdata('firstName').' '.$this->session->userdata('lastName'),
             );
         if($this->session->userdata('role_id') == 4){
-            $res=$this->db->get_where('buyer_details',array('reference_id'=>$this->session->userdata('userId')))->num_rows();
+            $res=$this->db->get_where('buyer_details',array('username'=>$this->session->userdata('userId')))->num_rows();
             if($res == 0){
                 $this->db->insert('buyer_details',$data);    
             }
         }elseif($this->session->userdata('role_id') == 6){
-            $res=$this->db->get_where('hod_details',array('reference_id'=>$this->session->userdata('userId')))->num_rows();
+            $res=$this->db->get_where('hod_details',array('username'=>$this->session->userdata('userId')))->num_rows();
             //print_r($this->db->last_query());die;
             if($res == 0){
                 $this->db->insert('hod_details',$data);    
